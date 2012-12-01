@@ -24,6 +24,35 @@ public class Application extends Controller {
     return ok(toJson(getBooksByTitle(title)));
   }
 
+  public static Result booksByCampus(String campus) {
+    return ok(toJson(getBooksByCampus(campus)));
+  }
+
+  private static List<Book> getBooksByCampus(String campus) {
+    List<Book> booksAtCampus = new ArrayList<Book>();
+    for(User user : getAllUsers()) {
+      if(user.getCampus().equalsIgnoreCase(campus)) {
+        booksAtCampus.addAll(user.getBooks());
+      }
+    }
+    return booksAtCampus;
+  }
+
+  private static List<User> getAllUsers() {
+    List<User> users = new ArrayList<User>();
+    User user = new User();
+    user.setCampus("Drake");
+    user.setBooks(getBooks());
+    users.add(user);
+
+    User isuUser = new User();
+    isuUser.setCampus("Iowa State");
+    isuUser.setBooks(getBooks());
+    users.add(isuUser);
+
+    return users;
+  }
+
   private static List<Book> getBooks() {
     List<Book> booksList = new ArrayList<Book>();
     Book book = new Book();
