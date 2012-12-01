@@ -60,13 +60,21 @@ public class Application extends Controller {
   private static List<Book> getBooks() {
     List<Book> booksList = new ArrayList<Book>();
     Book book = new Book();
-    book.setTitle("Our Book");
-    book.setAuthor("Dwolla Dwolla");
-    book.setListPrice(100.00);
-    book.setPublisher("Testing Publisher");
+    book.setTitle("The Clean Coder");
+    book.setAuthor("Robert C. Martin");
+    book.setListPrice(39.99);
+    book.setPublisher("Prentice Hall");
     book.setIsbn("0-13-708107-3");
+    book.setId(1);
     booksList.add(book);
-    booksList.add(book);
+    Book otherBook = new Book();
+    otherBook.setTitle("The Pragmatic Programmer");
+    otherBook.setAuthor("Andy Hunt");
+    otherBook.setListPrice(49.99);
+    otherBook.setPublisher("Prag Prog");
+    otherBook.setIsbn("1-22-222202-4");
+    otherBook.setId(2);
+    booksList.add(otherBook);
     return booksList;
   }
 

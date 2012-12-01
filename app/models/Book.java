@@ -11,6 +11,11 @@ public class Book {
   private double listPrice;
   private User user;
   private String isbn;
+  private long id;
+
+  public void setId(long theId) {id = theId;}
+ 
+  public long getId() {return id;}  
  
   public void setTitle(String theTitle) {
     title = theTitle;
