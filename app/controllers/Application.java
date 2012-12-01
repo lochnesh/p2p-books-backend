@@ -3,6 +3,8 @@ package controllers;
 import play.*;
 import play.mvc.*;
 
+import static play.libs.Json.toJson;
+
 import views.html.*;
 import models.*;
 
@@ -14,7 +16,11 @@ public class Application extends Controller {
 
   public static Result books() {
     Book book = new Book();
-    return ok("these are books");
+    book.setTitle("Our Book");
+    book.setAuthor("Dwolla Dwolla");
+    book.setListPrice(100.00);
+    book.setPublisher("Testing Publisher");
+    return ok(toJson(book));
   }
   
 }
