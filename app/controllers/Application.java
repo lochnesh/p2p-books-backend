@@ -20,6 +20,10 @@ public class Application extends Controller {
     return ok(toJson(getBooks()));
   }
 
+  public static Result booksByTitle(String title) {
+    return ok(toJson(getBooksByTitle(title)));
+  }
+
   private static List<Book> getBooks() {
     List<Book> booksList = new ArrayList<Book>();
     Book book = new Book();
@@ -30,6 +34,17 @@ public class Application extends Controller {
     booksList.add(book);
     booksList.add(book);
     return booksList;
+  }
+
+  private static List<Book> getBooksByTitle(String title) {
+    List<Book> books = getBooks();
+    List<Book> returnedBooks = new ArrayList<Book>();
+    for (Book book : books) {
+      if(book.getTitle().indexOf(title) != -1) {
+        returnedBooks.add(book);
+      }
+    }
+    return returnedBooks;
   }
     
   
