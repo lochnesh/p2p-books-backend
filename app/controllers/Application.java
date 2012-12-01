@@ -20,6 +20,10 @@ public class Application extends Controller {
     return ok(toJson(getBooks()));
   }
 
+  public static Result book(Long id) {
+    return ok(toJson(getBook(id)));
+  }
+
   public static Result booksByTitle(String title) {
     return ok(toJson(getBooksByTitle(title)));
   }
@@ -56,6 +60,18 @@ public class Application extends Controller {
 
     return users;
   }
+
+  private static Book getBook(Long id) {
+    List<Book> books = getBooks();
+    Book returnedBook = null;
+    for (Book book : books) {
+      if(book.getId() == id.longValue()) {
+        returnedBook = book;
+      }
+    }
+    return returnedBook;
+  }
+      
 
   private static List<Book> getBooks() {
     List<Book> booksList = new ArrayList<Book>();
