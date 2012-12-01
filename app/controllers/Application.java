@@ -24,6 +24,10 @@ public class Application extends Controller {
     return ok(toJson(getBooksByTitle(title)));
   }
 
+  public static Result searchBooks(String query) {
+    return ok(toJson(findBooks(query)));
+  }
+
   public static Result booksByCampus(String campus) {
     return ok(toJson(getBooksByCampus(campus)));
   }
@@ -60,6 +64,7 @@ public class Application extends Controller {
     book.setAuthor("Dwolla Dwolla");
     book.setListPrice(100.00);
     book.setPublisher("Testing Publisher");
+    book.setIsbn("0-13-708107-3");
     booksList.add(book);
     booksList.add(book);
     return booksList;
@@ -75,6 +80,25 @@ public class Application extends Controller {
     }
     return returnedBooks;
   }
-    
-  
+
+  private static List<Book> findBooks(String query) {
+    List<Book> books = getBooks();
+    List<Book> returnedBooks = new ArrayList<Book>();
+    for (Book book : books) {
+      if(book.getTitle().indexOf(query) != -1) {
+        returnedBooks.add(book);
+      }
+    }
+    for (Book book : books) {
+      if(book.getAuthor().indexOf(query) != -1) {
+        returnedBooks.add(book);
+      }
+    }
+    for (Book book : books) {
+      if(book.getIsbn().indexOf(query) != -1) {
+        returnedBooks.add(book);
+      }
+    }
+    return returnedBooks;
+  }
 }

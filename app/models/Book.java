@@ -10,7 +10,8 @@ public class Book {
   private String publisher;
   private double listPrice;
   private User user;
-  
+  private String isbn;
+ 
   public void setTitle(String theTitle) {
     title = theTitle;
   }
@@ -46,6 +47,10 @@ public class Book {
   public void setUser(User theUser) {user = theUser;}
 
   public User getUser() {return user;}
+
+  public void setIsbn(String theIsbn) { isbn = theIsbn; }
+  
+  public String getIsbn() {return isbn;}
 
 }
   
