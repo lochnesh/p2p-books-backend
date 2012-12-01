@@ -1,6 +1,7 @@
 package models;
 
 import java.util.*;
+import models.*;
 
 public class Book {
 
@@ -8,6 +9,7 @@ public class Book {
   private String author;
   private String publisher;
   private double listPrice;
+  private User user;
   
   public void setTitle(String theTitle) {
     title = theTitle;
@@ -40,6 +42,10 @@ public class Book {
   public double getListPrice() {
     return listPrice;
   }
+
+  public void setUser(User theUser) {user = theUser;}
+
+  public User getUser() {return user;}
 
 }
   
