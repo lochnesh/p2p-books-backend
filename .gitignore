@@ -14,3 +14,6 @@ test-results/
 lib/
 tmp/
 modules/
+.classpath
+.project
+.settings
