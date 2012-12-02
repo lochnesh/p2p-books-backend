@@ -18,7 +18,12 @@ public class Book {
   private String isbn;
   private long old_id;
   private String image; 
+  private boolean sold = false;
 
+  public void setSold(boolean s) {sold = s;}
+
+  public boolean isSold() {return sold;}
+  
   public String getId() {return id.toString();}
 
   public void setImage(String theImage) {image = theImage;}

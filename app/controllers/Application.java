@@ -48,6 +48,13 @@ public class Application extends Controller {
     return ok(toJson(getBook(id)));
   }
 
+  public static Result sellBook(String id) {
+    Book book = getBook(id);
+    book.setSold(true);
+    saveBook(book);
+    return ok();
+  } 
+
   public static Result booksByTitle(String title) {
     return ok(toJson(getBooksByTitle(title)));
   }
