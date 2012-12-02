@@ -104,7 +104,7 @@ public class Application extends Controller {
     List<Book> books = getBooks();
     Book returnedBook = null;
     for (Book book : books) {
-      if(book.getId().toString().equalsIgnoreCase(id)) {
+      if(book.id.toString().equalsIgnoreCase(id)) {
         returnedBook = book;
       }
     }

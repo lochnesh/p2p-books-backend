@@ -17,7 +17,7 @@ public class Book {
   private User user;
   private String isbn;
   private long old_id;
-  private String image;
+  private String image; 
 
   public void setImage(String theImage) {image = theImage;}
   
