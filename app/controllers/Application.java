@@ -15,6 +15,7 @@ import com.google.code.morphia.Morphia;
 import com.google.code.morphia.mapping.Mapper;
 import com.google.code.morphia.query.UpdateOperations;
 import com.mongodb.Mongo;
+import com.mongodb.MongoURI;
 import java.net.*;
 import java.lang.RuntimeException;
 
@@ -116,7 +117,12 @@ public class Application extends Controller {
 
     try {
       Morphia morphia = new Morphia();
-      Mongo mongo = new Mongo();
+      String mongo_url = System.getenv("MONGOHQ_URL");
+      if (mongo_url == null ) {
+        mongo_url  = System.getProperty("MONGOHQ_URL");
+      }
+      MongoURI mongoUri = new MongoURI(mongo_url);
+      Mongo mongo = mongoUri.connect();
       Datastore ds = morphia.createDatastore(mongo, "test");
       for(Book book : ds.find(Book.class)) {
         booksList.add(book);
