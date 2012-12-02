@@ -44,7 +44,7 @@ public class Application extends Controller {
     return ok(toJson(getBooks()));
   }
 
-  public static Result book(Long id) {
+  public static Result book(String id) {
     return ok(toJson(getBook(id)));
   }
 
@@ -100,11 +100,11 @@ public class Application extends Controller {
     return users;
   }
 
-  private static Book getBook(Long id) {
+  private static Book getBook(String id) {
     List<Book> books = getBooks();
     Book returnedBook = null;
     for (Book book : books) {
-      if(book.getOldId() == id.longValue()) {
+      if(book.getId().toString().equalsIgnoreCase(id)) {
         returnedBook = book;
       }
     }
