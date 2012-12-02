@@ -70,6 +70,7 @@ public class Application extends Controller {
     book.setPublisher(json.findPath("publisher").getTextValue());
     book.setListPrice(json.findPath("listPrice").getDoubleValue());
     book.setIsbn(json.findPath("isbn").getTextValue());
+    book.setImage(json.findPath("image").getTextValue());
     saveBook(book);
     return ok();
   }

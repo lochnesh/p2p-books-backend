@@ -17,6 +17,11 @@ public class Book {
   private User user;
   private String isbn;
   private long old_id;
+  private String image;
+
+  public void setImage(String theImage) {image = theImage;}
+  
+  public String getImage() {return image;}
 
   public void setOldId(long theId) {old_id = theId;}
  
