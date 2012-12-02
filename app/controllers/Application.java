@@ -75,6 +75,18 @@ public class Application extends Controller {
     return ok();
   }
 
+  public static Result addUser() {
+    JsonNode json = request().body().asJson();
+    User user = new User();
+    user.setSinglyId(json.findPath("singlyId").getTextValue());
+    user.setFirstName(json.findPath("firstName").getTextValue());
+    user.setLastName(json.findPath("lastName").getTextValue());
+    user.setEmail(json.findPath("email").getTextValue());
+    user.setThumbnail(json.findPath("thumbnail").getTextValue());
+    saveUser(user);
+    return ok();
+  }
+
   private static List<Book> getBooksByCampus(String campus) {
     List<Book> booksAtCampus = new ArrayList<Book>();
     for(User user : getAllUsers()) {
@@ -179,7 +191,29 @@ public class Application extends Controller {
     } catch (UnknownHostException e) {
       throw new RuntimeException(e);
     }
-  } 
+  }
+
+  private static void saveUser(User user) {
+    try {
+       Morphia morphia = new Morphia();
+      String mongo_url = System.getenv("MONGOHQ_URL");
+      if (mongo_url == null ) {
+        mongo_url  = System.getProperty("MONGOHQ_URL");
+      }
+      MongoURI mongoUri = new MongoURI(mongo_url);
+      DB connectedDB = mongoUri.connectDB();
+      if (mongoUri.getUsername() != null) {
+        connectedDB.authenticate(mongoUri.getUsername(), mongoUri.getPassword());
+      }
+
+      //Mongo mongo = mongoUri.connect();
+      Mongo mongo = connectedDB.getMongo();
+      Datastore ds = morphia.createDatastore(mongo, "app9665938");
+      ds.save(user);
+      } catch (UnknownHostException e) {
+        throw new RuntimeException(e);
+      }
+  }
 
   private static List<Book> getBooksByTitle(String title) {
     List<Book> books = getBooks();
