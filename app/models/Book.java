@@ -19,6 +19,8 @@ public class Book {
   private long old_id;
   private String image; 
 
+  public String getId() {return id.toString();}
+
   public void setImage(String theImage) {image = theImage;}
   
   public String getImage() {return image;}
