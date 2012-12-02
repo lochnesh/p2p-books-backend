@@ -60,6 +60,10 @@ public class Application extends Controller {
     return ok(toJson(getBooksByCampus(campus)));
   }
 
+  public static Result users() {
+    return ok(toJson(getAllUsers()));
+  }
+
   public static Result addBook() {
     JsonNode json = request().body().asJson();
     //System.out.println(request().body());
@@ -99,15 +103,28 @@ public class Application extends Controller {
 
   private static List<User> getAllUsers() {
     List<User> users = new ArrayList<User>();
-    User user = new User();
-    user.setCampus("Drake");
-    user.setBooks(getBooks());
-    users.add(user);
+    
+     try {
+      Morphia morphia = new Morphia();
+      String mongo_url = System.getenv("MONGOHQ_URL");
+      if (mongo_url == null ) {
+        mongo_url  = System.getProperty("MONGOHQ_URL");
+      }
+      MongoURI mongoUri = new MongoURI(mongo_url);
+      DB connectedDB = mongoUri.connectDB();
+      if (mongoUri.getUsername() != null) {
+        connectedDB.authenticate(mongoUri.getUsername(), mongoUri.getPassword());
+      }
 
-    User isuUser = new User();
-    isuUser.setCampus("Iowa State");
-    isuUser.setBooks(getBooks());
-    users.add(isuUser);
+      Mongo mongo = connectedDB.getMongo();
+      Datastore ds = morphia.createDatastore(mongo, "app9665938");
+      for(User user : ds.find(User.class)) {
+        users.add(user);
+      }
+    } catch (UnknownHostException e) {
+      throw new RuntimeException(e);
+    }
+
 
     return users;
   }
@@ -157,14 +174,12 @@ public class Application extends Controller {
         connectedDB.authenticate(mongoUri.getUsername(), mongoUri.getPassword());
       }
         
-      //Mongo mongo = mongoUri.connect();
       Mongo mongo = connectedDB.getMongo();
       Datastore ds = morphia.createDatastore(mongo, "app9665938");
       for(Book book : ds.find(Book.class)) {
         booksList.add(book);
       }
     } catch (UnknownHostException e) {
-      //fuck it.  it's a hack-a-thon
       throw new RuntimeException(e);
     }    
 
