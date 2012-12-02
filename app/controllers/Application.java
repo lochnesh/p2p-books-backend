@@ -5,6 +5,8 @@ import play.mvc.*;
 
 import static play.libs.Json.toJson;
 
+import org.codehaus.jackson.JsonNode;
+
 import views.html.*;
 import models.*;
 
@@ -56,6 +58,20 @@ public class Application extends Controller {
 
   public static Result booksByCampus(String campus) {
     return ok(toJson(getBooksByCampus(campus)));
+  }
+
+  public static Result addBook() {
+    JsonNode json = request().body().asJson();
+    //System.out.println(request().body());
+    //System.out.println(json.toString());
+    Book book = new Book();
+    book.setTitle(json.findPath("title").getTextValue());
+    book.setAuthor(json.findPath("author").getTextValue());
+    book.setPublisher(json.findPath("publisher").getTextValue());
+    book.setListPrice(json.findPath("listPrice").getDoubleValue());
+    book.setIsbn(json.findPath("isbn").getTextValue());
+    saveBook(book);
+    return ok();
   }
 
   private static List<Book> getBooksByCampus(String campus) {
@@ -141,6 +157,28 @@ public class Application extends Controller {
 
     return booksList;
   }
+
+  private static void saveBook(Book book) {
+    try {
+       Morphia morphia = new Morphia();
+      String mongo_url = System.getenv("MONGOHQ_URL");
+      if (mongo_url == null ) {
+        mongo_url  = System.getProperty("MONGOHQ_URL");
+      }
+      MongoURI mongoUri = new MongoURI(mongo_url);
+      DB connectedDB = mongoUri.connectDB();
+      if (mongoUri.getUsername() != null) {
+        connectedDB.authenticate(mongoUri.getUsername(), mongoUri.getPassword());
+      }
+
+      //Mongo mongo = mongoUri.connect();
+      Mongo mongo = connectedDB.getMongo();
+      Datastore ds = morphia.createDatastore(mongo, "app9665938");
+      ds.save(book);
+    } catch (UnknownHostException e) {
+      throw new RuntimeException(e);
+    }
+  } 
 
   private static List<Book> getBooksByTitle(String title) {
     List<Book> books = getBooks();
