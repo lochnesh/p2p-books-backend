@@ -130,7 +130,7 @@ public class Application extends Controller {
         
       //Mongo mongo = mongoUri.connect();
       Mongo mongo = connectedDB.getMongo();
-      Datastore ds = morphia.createDatastore(mongo, "test");
+      Datastore ds = morphia.createDatastore(mongo, "app9665938");
       for(Book book : ds.find(Book.class)) {
         booksList.add(book);
       }
