@@ -1,4 +1,4 @@
-This is your new Play 2.0 application
+A play framework application used to build a backend for a p2p-book selling application
 =====================================
 
-This file will be packaged with your application, when using `play dist`.
+This was build at the Dwolla Old MacDonald Hackathon.  It was build in roughly 20 hours.  Use at your own risk.
