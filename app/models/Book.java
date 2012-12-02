@@ -2,20 +2,25 @@ package models;
 
 import java.util.*;
 import models.*;
+import org.bson.types.ObjectId;
+import com.google.code.morphia.annotations.*;
 
+@Entity
 public class Book {
 
+  @Id
+  public ObjectId id;
   private String title;
   private String author;
   private String publisher;
   private double listPrice;
   private User user;
   private String isbn;
-  private long id;
+  private long old_id;
 
-  public void setId(long theId) {id = theId;}
+  public void setOldId(long theId) {old_id = theId;}
  
-  public long getId() {return id;}  
+  public long getOldId() {return old_id;}  
  
   public void setTitle(String theTitle) {
     title = theTitle;

@@ -10,6 +10,14 @@ import models.*;
 
 import java.util.*;
 
+import com.google.code.morphia.Datastore;
+import com.google.code.morphia.Morphia;
+import com.google.code.morphia.mapping.Mapper;
+import com.google.code.morphia.query.UpdateOperations;
+import com.mongodb.Mongo;
+import java.net.*;
+import java.lang.RuntimeException;
+
 public class Application extends Controller {
   
   public static Result index() {
@@ -17,6 +25,18 @@ public class Application extends Controller {
   }
 
   public static Result books() {
+    /*
+    List<Book> books = new ArrayList<Book>();
+    try {
+      Morphia morphia = new Morphia();
+      Mongo mongo = new Mongo();
+      Datastore ds = morphia.createDatastore(mongo, "test");
+      for(Book book : ds.find(Book.class)) {
+        books.add(book);
+      }
+    } catch (UnknownHostException e) {
+      throw new RuntimeException();
+    }*/
     return ok(toJson(getBooks()));
   }
 
@@ -65,7 +85,7 @@ public class Application extends Controller {
     List<Book> books = getBooks();
     Book returnedBook = null;
     for (Book book : books) {
-      if(book.getId() == id.longValue()) {
+      if(book.getOldId() == id.longValue()) {
         returnedBook = book;
       }
     }
@@ -75,13 +95,14 @@ public class Application extends Controller {
 
   private static List<Book> getBooks() {
     List<Book> booksList = new ArrayList<Book>();
+    /*
     Book book = new Book();
     book.setTitle("The Clean Coder");
     book.setAuthor("Robert C. Martin");
     book.setListPrice(39.99);
     book.setPublisher("Prentice Hall");
     book.setIsbn("0-13-708107-3");
-    book.setId(1);
+    book.setOldId(1);
     booksList.add(book);
     Book otherBook = new Book();
     otherBook.setTitle("The Pragmatic Programmer");
@@ -89,8 +110,22 @@ public class Application extends Controller {
     otherBook.setListPrice(49.99);
     otherBook.setPublisher("Prag Prog");
     otherBook.setIsbn("1-22-222202-4");
-    otherBook.setId(2);
+    otherBook.setOldId(2);
     booksList.add(otherBook);
+    */    
+
+    try {
+      Morphia morphia = new Morphia();
+      Mongo mongo = new Mongo();
+      Datastore ds = morphia.createDatastore(mongo, "test");
+      for(Book book : ds.find(Book.class)) {
+        booksList.add(book);
+      }
+    } catch (UnknownHostException e) {
+      //fuck it.  it's a hack-a-thon
+      throw new RuntimeException();
+    }    
+
     return booksList;
   }
 
