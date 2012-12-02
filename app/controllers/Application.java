@@ -129,7 +129,7 @@ public class Application extends Controller {
       }
     } catch (UnknownHostException e) {
       //fuck it.  it's a hack-a-thon
-      throw new RuntimeException();
+      throw new RuntimeException(e);
     }    
 
     return booksList;
