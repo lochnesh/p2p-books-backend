@@ -16,6 +16,7 @@ import com.google.code.morphia.mapping.Mapper;
 import com.google.code.morphia.query.UpdateOperations;
 import com.mongodb.Mongo;
 import com.mongodb.MongoURI;
+import com.mongodb.DB;
 import java.net.*;
 import java.lang.RuntimeException;
 
@@ -122,7 +123,13 @@ public class Application extends Controller {
         mongo_url  = System.getProperty("MONGOHQ_URL");
       }
       MongoURI mongoUri = new MongoURI(mongo_url);
-      Mongo mongo = mongoUri.connect();
+      DB connectedDB = mongoUri.connectDB();
+      if (mongoUri.getUsername() != null) {
+        connectedDB.authenticate(mongoUri.getUsername(), mongoUri.getPassword());
+      }
+        
+      //Mongo mongo = mongoUri.connect();
+      Mongo mongo = connectedDB.getMongo();
       Datastore ds = morphia.createDatastore(mongo, "test");
       for(Book book : ds.find(Book.class)) {
         booksList.add(book);
